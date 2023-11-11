@@ -26,6 +26,7 @@ varying vec2 pos;
 varying float arrowLength;
 varying float linkWidthArrowWidthRatio;
 varying float smoothWidthRatio;
+varying float check;
 
 float map(float value, float min1, float max1, float min2, float max2) {
   return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
@@ -38,6 +39,10 @@ vec2 conicParametricCurve(vec2 A, vec2 B, vec2 ControlPoint, float t, float w) {
 }
 
 void main() {
+  check = 0.0;
+  if (width > 0.0) {
+    check = 1.0;
+  }
   pos = position;
 
   vec2 pointTexturePosA = (pointA + 0.5) / pointsTextureSize;
@@ -59,7 +64,7 @@ void main() {
   vec2 controlPoint = (a + b) / 2.0 + yBasis * linkDist * h;
 
   float linkDistPx = linkDist * transform[0][0];
-  
+ 
   float linkWidth = width * widthScale;
   float k = 2.0;
   float arrowWidth = max(5.0, linkWidth * k);
@@ -71,7 +76,7 @@ void main() {
   float smoothWidth = 2.0;
   float arrowExtraWidth = arrowWidth - linkWidth;
   linkWidth += smoothWidth / 2.0;
-  if (useArrow) {
+  if (useArrow && check > 0.0) {
     linkWidth += arrowExtraWidth;
   }
   smoothWidthRatio = smoothWidth / linkWidth;

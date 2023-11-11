@@ -1,4 +1,5 @@
 import regl from 'regl'
+import hasExtension from 'regl'
 import { getValue, getRgbaColor } from '@/graph/helper'
 import { CoreModule } from '@/graph/modules/core-module'
 import drawLineFrag from '@/graph/modules/Lines/draw-curve-line.frag'
@@ -222,6 +223,7 @@ export class Lines<N extends CosmosInputNode, L extends CosmosInputLink> extends
 
   public draw (): void {
     if (!this.colorBuffer || !this.widthBuffer || !this.colorArrowBuffer || !this.widthArrowBuffer || !this.curveLineBuffer) return
+
     this.drawCurveCommand?.()
     if (this.config.linkArrows) this.drawArrowCurveCommand?.()
   }
